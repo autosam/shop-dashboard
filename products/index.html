@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.omegarelectrice.com/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.omegarelectrice.com/fontawesome-6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.omegarelectrice.com/toastr/toastr.min.css">
+
+    <title>Editor</title>
+    <link rel="stylesheet" href="editor.css">
+</head>
+
+<body>
+    <div data-include="common"></div>
+    <div class="modal-wrapper hidden">
+        <div class="modal-background">
+            <div class="modal-foreground">
+
+            </div>
+            <!-- <div class="modal-close">❌</div> -->
+        </div>
+    </div>
+
+    <div class="edit-tags-modal hidden">
+        <div class="tags-container"></div>
+        <div class="toolbar">
+            <div>
+                <select class="add-tag-title">
+                    <option>box_amount</option>
+                    <option>amper</option>
+                    <option>meter</option>
+                    <option>watt</option>
+                    <option>custom</option>
+                </select>
+                <input class="add-tag-value" placeholder="value"></input>
+                <button class="add-tag-btn">اضافه کردن</button>
+            </div>
+        </div>
+        <div class="removeable-tag cloneable hidden">
+            <div class="removeable-tag-title"></div>
+            <div class="removeable-tag-value"></div>
+            <button class="removeable-tag-remove">❌</button>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <button onclick="main.addProductDom()">➕ محصول جدید</button>
+        <button onclick="main.saveProducts()">✔️ ذخیره</button>
+        <textarea style="width: 100px; height: 50px; float: left;" id="save-result"></textarea>
+    </div>
+
+    <div class="product-list"></div>
+
+    <div>
+        <!-- <textarea style="width: 100px; height: 50px" id="save-result"></textarea> -->
+    </div>
+    
+    <div id="cloneables" class="hidden">
+        <div class="product cloneable">
+            <button onclick="main.changeProductDomOrder(this, 1)" class="move-up-product">⬆️</button>
+            <button onclick="main.changeProductDomOrder(this, 0)" class="move-down-product">⬇️</button>
+            <input class="product-title" placeholder="نام محصول"></input>
+            <textarea class="product-description" placeholder="توضیحات"></textarea>
+            <!-- <textarea class="product-tags" placeholder="تگ ها"></textarea> -->
+            <input class="product-price" placeholder="قیمت"></input>
+            <input class="product-image" placeholder="عکس"></input>
+            <input class="product-category" placeholder="دسته"></input>
+            <button onclick="main.editTags(this)">🏷️ تگ ها</button>
+            <div>
+                <button onclick="main.removeProductDom(this)" class="remove-product">❌</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.omegarelectrice.com/libs/jquery.min.js"></script>
+    <script src="https://cdn.omegarelectrice.com/toastr/toastr.min.js"></script>
+    <script src="/views/js/global.js"></script>
+    <script src="editor.js"></script>
+</body>
+
+</html>

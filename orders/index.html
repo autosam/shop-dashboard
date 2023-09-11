@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.omegarelectrice.com/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.omegarelectrice.com/fontawesome-6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.omegarelectrice.com/toastr/toastr.min.css">
+
+    <link rel="stylesheet" href="styles.css">
+    <title>Orders</title>
+</head>
+<body>
+    <div data-include="common"></div>
+    <div class="orders-container">
+        <div>
+            <button class="btn refresh btn-primary"> <i class="fa-solid fa-refresh"></i> </button>
+        </div>
+
+        <div class="loading-overlay">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+
+        <table class="table table-hover orders-table" data-loading="false">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>زمان</td>
+                    <td style="width: 10%;">مشتری</td>
+                    <td>محصول</td>
+                    <td style="text-align: center;">تعداد سفارش</td>
+                    <td style="text-align: center;">نوع سفارش</td>
+                    <td style="text-align: center;">وضعیت</td>
+                    <td style="text-align: center;">عملیات</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <!-- cloneables -->
+
+
+    <!-- <script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.omegarelectrice.com/libs/jquery.min.js"></script>
+    <script src="https://cdn.omegarelectrice.com/toastr/toastr.min.js"></script>
+    <script src="/views/js/global.js"></script>
+    <script src="orders.js"></script>
+</body>
+</html>
