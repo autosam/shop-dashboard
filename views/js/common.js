@@ -1,9 +1,32 @@
 $(function () {
     var includes = $('[data-include]')
     $.each(includes, function () {
-        var file = '/views/html/' + $(this).data('include') + '.html'
-        $(this).load(file)
+        var file = '/views/html/' + $(this).data('include') + '.html';
+        let loaded = $(this).load(file, function(){
+            let parent = loaded[0];
+            Array.from(parent.querySelectorAll('.str-replaceable')).forEach(replaceable => {
+                let targetReplace = replaceable.getAttribute('data-target-replace');
+                let parentReplacer = parent.getAttribute(`data-replace-${targetReplace}`);
+
+                replaceable.classList.remove('str-replaceable');
+                replaceable.removeAttribute('data-target-replace', '');
+
+                parent.setAttribute(`data-replace-${targetReplace}`, '')
+                if(parentReplacer[0] == '%'){
+                    parentReplacer = eval(parentReplacer.replaceAll('%', ''));
+                }
+                replaceable.innerHTML = parentReplacer;
+            });
+        });
+        
     })
+
+    console.log(document.querySelectorAll('.str-replaceable'));
+    // word replace
+    Array.from(document.querySelectorAll('.str-replaceable')).forEach(replaceable => {
+        let targetReplace = replaceable.getAttribute('data-target-replace');
+        console.log(targetReplace);
+    });
 })
 
 let toast = function(type, title, msg){
