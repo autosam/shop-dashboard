@@ -1,9 +1,9 @@
 @font-face {
-    font-family: sans;
+    font-family: "sans";
     src: url('https://cdn.omegarelectrice.com/fonts/Sans a4fran3.woff');
 }
 
-@font-face {
+/* @font-face {
     font-family: "IRANSansX";
     src: url("https://cdn.omegarelectrice.com/fonts/woff/IRANSansX-Regular.woff");
 }
@@ -18,11 +18,11 @@
     font-family: "IRANSansX";
     src: url("https://cdn.omegarelectrice.com/fonts/woff/IRANSansX-ExtraBold.woff");
     font-weight: 900;
-}
+} */
 
 
 body {
-    font-family: 'sans';
+    font-family: "sans";
     font-size: small;
     margin-top: 70px;
 }

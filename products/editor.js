@@ -45,6 +45,11 @@ let main = {
                 product.classList.add('disabled');
             }
             product.querySelector('.product-image').value = def.image || '';
+            let imagePreview = product.querySelector('.product-image-preview');
+            if(def.image) imagePreview.src = 'https://autosam.github.io/shop/' + def.image;
+            product.querySelector('.product-image').onchange = function(){
+                imagePreview.src = 'https://autosam.github.io/shop/' + this.value;
+            }
             product.querySelector('.product-category').value = def.category || '';
             // product.querySelector('.product-tags').value = JSON.stringify(def.tags, null, 1) || '';
             product.setAttribute('data-tags', JSON.stringify(def.tags) || "{}");
