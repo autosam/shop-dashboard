@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -15,41 +15,51 @@
 
 <body>
     <div data-include="common"></div>
+    <div data-include="page-title" data-replace-title="%document.title%"></div>
+
     <div class="modal-wrapper hidden">
         <div class="modal-background">
             <div class="modal-foreground">
 
             </div>
-            <!-- <div class="modal-close">❌</div> -->
         </div>
     </div>
 
     <div class="edit-tags-modal hidden">
         <div class="tags-container"></div>
-        <div class="toolbar">
+        <div class="">
             <div>
-                <select class="add-tag-title">
-                    <option>box_amount</option>
-                    <option>amper</option>
-                    <option>meter</option>
-                    <option>watt</option>
-                    <option>custom</option>
-                </select>
-                <input class="add-tag-value" placeholder="value"></input>
-                <button class="add-tag-btn">اضافه کردن</button>
+                <div class="form-floating mb-3">
+                    <select class="form-select add-tag-title" id="floatingSelect">
+                        <option>box_amount</option>
+                        <option>amper</option>
+                        <option>meter</option>
+                        <option>watt</option>
+                        <option>custom</option>
+                    </select>
+                    <label for="floatingSelect">Tag Title</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input class="form-control add-tag-value" id="floatingInput" placeholder="value">
+                    <label for="floatingInput">Value</label>
+                </div>
+
+                <button class="btn btn-primary add-tag-btn">اضافه کردن</button>
             </div>
         </div>
         <div class="removeable-tag cloneable hidden">
             <div class="removeable-tag-title"></div>
             <div class="removeable-tag-value"></div>
-            <button class="removeable-tag-remove">❌</button>
+            <button class="btn btn-danger removeable-tag-remove"><i class="fa-solid fa-times"></i></button>
         </div>
     </div>
 
-    <div class="toolbar">
-        <button onclick="main.addProductDom()">➕ محصول جدید</button>
-        <button onclick="main.saveProducts()">✔️ ذخیره</button>
-        <textarea style="width: 100px; height: 50px; float: left;" id="save-result"></textarea>
+    <div class="page-toolbar sticky-sm-top stick-transparent-bg">
+        <button class="btn btn-secondary" onclick="main.addProductDom({isNew: true})"><i class="fa-solid fa-plus"></i> محصول جدید </button>
+        <button class="btn btn-success" onclick=""><i class="fa-solid fa-file-excel"></i> خروجی اکسل </button>
+        <button class="btn btn-primary" onclick="main.saveProducts()"><i class="fa-solid fa-check"></i> ذخیره</button>
+        <!-- <textarea style="width: 100px; height: 50px; float: left;" id="save-result"></textarea> -->
     </div>
 
     <div class="product-list"></div>
@@ -57,20 +67,45 @@
     <div>
         <!-- <textarea style="width: 100px; height: 50px" id="save-result"></textarea> -->
     </div>
-    
+
     <div id="cloneables" class="hidden">
         <div class="product cloneable">
-            <button onclick="main.changeProductDomOrder(this, 1)" class="move-up-product">⬆️</button>
-            <button onclick="main.changeProductDomOrder(this, 0)" class="move-down-product">⬇️</button>
-            <input class="product-title" placeholder="نام محصول"></input>
-            <textarea class="product-description" placeholder="توضیحات"></textarea>
-            <!-- <textarea class="product-tags" placeholder="تگ ها"></textarea> -->
-            <input class="product-price" placeholder="قیمت"></input>
-            <input class="product-image" placeholder="عکس"></input>
-            <input class="product-category" placeholder="دسته"></input>
-            <button onclick="main.editTags(this)">🏷️ تگ ها</button>
-            <div>
-                <button onclick="main.removeProductDom(this)" class="remove-product">❌</button>
+            <div style="flex-grow: 0;" class="my-auto">
+                <button onclick="main.changeProductDomOrder(this, 1)" class="btn btn-outline-dark move-up-product"><i
+                        class="fa-solid fa-arrow-up"></i></button>
+                <button onclick="main.changeProductDomOrder(this, 0)" class="btn btn-outline-dark move-down-product"><i
+                        class="fa-solid fa-arrow-down"></i></button>
+            </div>
+            <div class="form-floating">
+                <input class="form-control product-title" placeholder="نام محصول">
+                <label>نام محصول</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control product-description" placeholder="توضیحات">
+                <label>توضیحات</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control product-price" placeholder="قیمت">
+                <label>قیمت</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control product-image" placeholder="آدرس عکس">
+                <label>آدرس عکس</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control product-category" placeholder="دسته">
+                <label>دسته</label>
+            </div>
+
+            <div style="flex-grow: 0;" class="my-auto">
+                <button class="btn btn-secondary" onclick="main.editTags(this)"> <i class="fa-solid fa-tag"></i> تگ
+                    ها</button>
+                <button class="btn btn-danger" onclick="main.removeProductDom(this)" class="remove-product"> <i
+                        class="fa-solid fa-times"></i> </button>
             </div>
         </div>
     </div>

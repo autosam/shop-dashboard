@@ -8,7 +8,7 @@ let main = {
         // this.addProductDom({
 
         // });
-        this.loadProductList('https://api.omegarelectrice.com/json/products.json');
+        this.loadProductList(`https://api.omegarelectrice.com/json/products.json?tmp=${new Date().getTime()}`);
     },
     async loadProductList(path){
         let list;
@@ -28,7 +28,7 @@ let main = {
         list.forEach(productDefinition => {
             // main.dom.productList.innerHTML += `\n${JSON.stringify(productDefinition)}`;
             main.addProductDom(productDefinition);
-        });       
+        });
     },
     clearProductList: function(){
         main.dom.productList.innerHTML = '';
@@ -41,6 +41,9 @@ let main = {
             product.querySelector('.product-title').value = def.title || '';
             product.querySelector('.product-description').value = def.description || '';
             product.querySelector('.product-price').value = def.price || '';
+            if(def.price == -1){
+                product.classList.add('disabled');
+            }
             product.querySelector('.product-image').value = def.image || '';
             product.querySelector('.product-category').value = def.category || '';
             // product.querySelector('.product-tags').value = JSON.stringify(def.tags, null, 1) || '';
@@ -50,9 +53,13 @@ let main = {
             } else {
                 product.setAttribute('data-product-id', Math.round(Math.random() * 951847321));
             }
+            if(def.isNew){
+                product.classList.add('new');
+            }
         }
         
         this.dom.productList.appendChild(product);
+        if(def.isNew) product.scrollIntoView();
     },
     removeProductDom: function(e){
         if(!confirm("حذف؟")) return;
@@ -127,6 +134,30 @@ let main = {
         // product.querySelector('.product-tags').value = JSON.stringify(def.tags, null, 1) || '';
     },
     saveProducts: function(){
+        let list = main.dom.productList.querySelectorAll('.product');
+        let result = [];
+        list.forEach(product => {
+            result.push(main.serializeProduct(product));
+        });
+        result = JSON.stringify(result);
+        $.ajax({
+            url: 'https://api.omegarelectrice.com/updateProducts.php',
+            type: 'POST',
+            data: result,
+            success: function(response) {
+                console.log("res: " + response);
+                toast('success', 'عملیات با موفقیت انجام شد');
+                setTimeout(() => location.reload(), 500);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Handle the error response here
+                console.log("Error: " + textStatus + " - " + errorThrown);
+                console.log("Status: " + jqXHR.status + " - " + jqXHR.statusText);
+                console.log("Content: " + jqXHR.responseText);
+            },
+        });
+    },
+    _saveProducts: function(){
         let list = main.dom.productList.querySelectorAll('.product');
         let result = [];
         list.forEach(product => {

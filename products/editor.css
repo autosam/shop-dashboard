@@ -20,39 +20,41 @@
     font-weight: 900;
 }
 
-
-button {
-    font-family: 'sans';
-}
-body {
-    background-color: rgb(235, 235, 235);
-    direction: rtl;
-    font-family: 'sans';
-}
-
 .hidden {
     display: none !important;
 }
 
 .product-list {
-    width: 100%;
+    width: calc(100% - 20px);
     border: none;
     display: flex;
     /* gap: 10px; */
     flex-direction: column;
-    margin: 20px 0px;
+    margin: 20px 10px;
 }
 
 .product {
     /* padding: 5px; */
     background-color: rgb(255, 255, 255);
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #00000026;
     display: flex;
-    gap: 10px;
+    /* gap: 10px; */
+}
+
+.product > * {
+    flex-grow: 1;
 }
 
 .product.editing {
-    background-color: aqua;
+    background-color: rgb(191, 200, 255);
+}
+
+.product.disabled {
+    background: rgb(226, 226, 226);
+}
+
+.product.new {
+    background: aliceblue;
 }
 
 .product input, .product textarea {
@@ -69,29 +71,13 @@ body {
 .product > * {
 }
 
- button {
-    appearance: none;
-    border: none;
-    background: none;
-    margin-left: 10px;
-    padding: 10px;
-    cursor: pointer;
-    border: 1px solid rgb(182, 182, 182);
-    border-radius: 10px;
-    margin: 5px;
-    font-size: small;
-}
-
- button:hover {
-    background: rgb(238, 238, 238);
-}
-
 .modal-wrapper {
     width: 100vw;
     height: 100vh;
     position: fixed;
     top: 0px;
     left: 0px;
+    z-index: 11;
 }
 
 .modal-background {
@@ -105,8 +91,8 @@ body {
 
 .modal-foreground {
     background-color: white;
-    width: 600px;
-    height: 300px;
+    min-width: 600px;
+    min-height: 300px;
 }
 
 .modal-close {
@@ -117,6 +103,14 @@ body {
     left: 50px;
     cursor: pointer;
     background-color: white;
+}
+
+.tags-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-width: 600px;
+    flex-wrap: wrap;
 }
 
 .removeable-tag {
