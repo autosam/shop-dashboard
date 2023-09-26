@@ -17,7 +17,10 @@ async function refreshOrders(){
     document.querySelector('.orders-container').setAttribute('data-loading', true);
     let orders = await getOrders();
     tbody.innerHTML = '';
-    orders.forEach((order, i) => {
+    let lastSetId = false;
+    let i = -1;
+    orders.forEach((order, _i) => {
+        i++;
         let name;
         let product = productsHelper.getProductById(order.product);
         if(product){
@@ -30,11 +33,18 @@ async function refreshOrders(){
             name = order.product;
         }
 
+        let isPartOfSet = false;
+        if(lastSetId && lastSetId == order.setId){
+            isPartOfSet = true;
+            i--;
+        }
+        lastSetId = order.setId;
+
         let processed = '<span class="badge bg-primary"> در حال بررسی </span>';
         if(order.processed == 1) processed = '<span class="badge bg-success"> تایید شده </span>';
         else if(order.processed == -1) processed = '<span class="badge bg-danger"> رد شده </span>';
         tbody.innerHTML += `
-        <tr data-order-id="${order.order_id}">
+        <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""}">
             <td>${i+1}</td>
             <td>${order.timestamp}</td>
             <td>${order.user}</td>
@@ -50,27 +60,40 @@ async function refreshOrders(){
         `;
     });
 
+    let fnAction = function(setId, state){
+        if(setId){
+            [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)].forEach((row, i) => {
+                let orderId = row.getAttribute('data-order-id');
+                setOrderState(orderId, state, i != 0);
+            });
+            return;
+        } else {
+            toast('error', 'مشکلی به وجود آمده' + 'NoSetId');
+        }
+    }
+
     Array.from(tbody.querySelectorAll('tr')).forEach(row => {
-        let orderId = row.getAttribute('data-order-id');
+        let orderId = row.getAttribute('data-order-id'),
+            setId = row.getAttribute('data-set-id');
         row.querySelector('.order-accept').onclick = function(){
-            setOrderState(orderId, 1);
+            fnAction(setId, 1);
         }
         row.querySelector('.order-reject').onclick = function(){
-            setOrderState(orderId, -1);
+            fnAction(setId, -1);
         }
     });
 
     document.querySelector('.orders-container').setAttribute('data-loading', false);
 }
 
-function setOrderState(orderId, state){
+function setOrderState(orderId, state, nonVerbose){
     fetch(`https://api.omegarelectrice.com/orderState.php?order_id=${orderId}&state=${state}`)
     .then(response => response.json)
     .then(json => {
         refreshOrders();
-        toast('success', 'عملیات با موفقیت انجام شد');
+        if(!nonVerbose) toast('success', 'عملیات با موفقیت انجام شد');
     }).catch(e => {
-        toast('error', e);
+        if(!nonVerbose) toast('error', e);
         refreshOrders();
     });
 }

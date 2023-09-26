@@ -47,3 +47,9 @@
     border-radius: 5px;
     font-weight: bold;
 }
+
+.orders-table .set-order > td:last-child, 
+.orders-table .set-order > td:first-child, 
+.orders-table .set-order > td:nth-last-child(2) {
+    opacity: 0;
+}
