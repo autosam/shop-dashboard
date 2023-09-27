@@ -12,6 +12,20 @@ function getOrders(){
     })
 }
 
+async function saveFile(fileData, defaultName){
+    var picker = await showSaveFilePicker({
+        suggestedName: defaultName,
+        types: [{
+            accept: {'text/plain': ['.csv']}
+        }],
+    });
+
+    var blob = new Blob([fileData]);
+    var pickerWritable = await picker.createWritable();
+    await pickerWritable.write(blob);
+    await pickerWritable.close();
+}
+
 async function refreshOrders(){
     let tbody = document.querySelector('.orders-table tbody');
     document.querySelector('.orders-container').setAttribute('data-loading', true);
@@ -45,15 +59,15 @@ async function refreshOrders(){
         else if(order.processed == -1) processed = '<span class="badge bg-danger"> رد شده </span>';
         tbody.innerHTML += `
         <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""}">
-            <td><div>${i+1}</div></td>
-            <td><div>${order.timestamp}</div></td>
-            <td><div>${order.user}</div></td>
-            <td>${name}</td>
-            <td style="text-align: center;">${order.quantity}</td>
-            <td style="text-align: center;">${order.type == 'single' ? "تکی" : "جعبه ای"}</td>
-            <td style="text-align: center;"><span>${processed}</span></td>
-            <td style="text-align: center;">
-                <div>
+            <td id="hash-num"><div class="set-order-invisible">${i+1}</div></td>
+            <td id="timestamp"><div class="set-order-invisible">${order.timestamp}</div></td>
+            <td id="user"><div class="set-order-invisible">${order.user}</div></td>
+            <td id="product-name">${name}</td>
+            <td id="quantity" style="text-align: center;">${order.quantity}</td>
+            <td id="type" style="text-align: center;">${order.type == 'single' ? "تکی" : "جعبه ای"}</td>
+            <td id="state" style="text-align: center;"><span>${processed}</span></td>
+            <td id="actions" style="text-align: center;">
+                <div class="set-order-invisible">
                     <i class="order-accept fa-solid fa-check btn btn-success"></i>
                     <i class="order-reject fa-solid fa-times btn btn-danger"></i>
                     <i class="order-export fa-solid fa-file-excel btn btn-secondary"></i>
@@ -83,6 +97,28 @@ async function refreshOrders(){
         }
         row.querySelector('.order-reject').onclick = function(){
             fnAction(setId, -1);
+        }
+        row.querySelector('.order-export').onclick = function(){
+            let list = [];
+            [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)].forEach((row, i) => {
+                let orderId = row.getAttribute('data-order-id');
+
+                let item = [];
+
+                item.push(row.querySelector('#timestamp').textContent);
+                item.push(row.querySelector('#user').textContent)
+                item.push(row.querySelector('#product-name').textContent)
+                item.push(row.querySelector('#quantity').textContent)
+                item.push(row.querySelector('#type').textContent)
+                item.push(orderId)
+                item.push(setId)
+
+                list.push(item);
+            });
+            let csv = Papa.unparse(list, {header: ['timestamp', 'user', 'product', 'quantity', 'type', 'orderid', 'setid']});
+            // console.log({csv, list});
+            console.log(csv);
+            saveFile(csv, 'order-' + setId + '.csv');
         }
     });
 
