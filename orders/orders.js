@@ -67,7 +67,7 @@ async function refreshOrders(){
             <td id="type" style="text-align: center;">${order.type == 'single' ? "تکی" : "جعبه ای"}</td>
             <td id="state" style="text-align: center;"><span>${processed}</span></td>
             <td id="actions" style="text-align: center;">
-                <div class="set-order-invisible">
+                <div class="set-order-invisiblee">
                     <i class="order-accept fa-solid fa-check btn btn-success"></i>
                     <i class="order-reject fa-solid fa-times btn btn-danger"></i>
                     <i class="order-export fa-solid fa-file-excel btn btn-secondary"></i>
@@ -148,9 +148,9 @@ async function init(){
         setTimeout(() => this.querySelector('i').classList.remove('fa-spin'), 1000)
     };
 
-    setInterval(() => {
-        // refreshBtn.click();
-    }, 20000);
+    // setInterval(() => {
+    //     refreshBtn.click();
+    // }, 20000);
 
     refreshBtn.click();
 }
