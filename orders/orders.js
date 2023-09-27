@@ -45,16 +45,19 @@ async function refreshOrders(){
         else if(order.processed == -1) processed = '<span class="badge bg-danger"> رد شده </span>';
         tbody.innerHTML += `
         <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""}">
-            <td>${i+1}</td>
-            <td>${order.timestamp}</td>
-            <td>${order.user}</td>
+            <td><div>${i+1}</div></td>
+            <td><div>${order.timestamp}</div></td>
+            <td><div>${order.user}</div></td>
             <td>${name}</td>
             <td style="text-align: center;">${order.quantity}</td>
             <td style="text-align: center;">${order.type == 'single' ? "تکی" : "جعبه ای"}</td>
-            <td style="text-align: center;">${processed}</td>
+            <td style="text-align: center;"><span>${processed}</span></td>
             <td style="text-align: center;">
-                <i class="order-accept fa-solid fa-check btn btn-success"></i>
-                <i class="order-reject fa-solid fa-times btn btn-danger"></i>
+                <div>
+                    <i class="order-accept fa-solid fa-check btn btn-success"></i>
+                    <i class="order-reject fa-solid fa-times btn btn-danger"></i>
+                    <i class="order-export fa-solid fa-file-excel btn btn-secondary"></i>
+                </div>
             </td>
         </tr>
         `;

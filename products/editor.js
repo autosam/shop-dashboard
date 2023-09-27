@@ -9,6 +9,19 @@ let main = {
 
         // });
         this.loadProductList(`https://api.omegarelectrice.com/json/products.json?tmp=${new Date().getTime()}`);
+        main.sortable = Sortable.create(this.dom.productList, {
+            // animation: 150,
+            // easing: "cubic-bezier(1, 0, 0, 1)",
+            // handle: '.sortable-handle',
+            // ghostClass: "sortable-ghost",
+
+            animation: 100,
+            draggable: '.product',
+            handle: '.sortable-handle',
+            sort: true,
+            filter: '.sortable-disabled',
+            ghostClass: 'sortable-active'
+        });
     },
     async loadProductList(path){
         let list;

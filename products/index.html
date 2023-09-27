@@ -71,10 +71,13 @@
     <div id="cloneables" class="hidden">
         <div class="product cloneable">
             <div style="flex-grow: 0;" class="my-auto">
-                <button onclick="main.changeProductDomOrder(this, 1)" class="btn btn-outline-dark move-up-product"><i
+                <!-- <button onclick="main.changeProductDomOrder(this, 1)" class="btn btn-outline-dark move-up-product"><i
                         class="fa-solid fa-arrow-up"></i></button>
                 <button onclick="main.changeProductDomOrder(this, 0)" class="btn btn-outline-dark move-down-product"><i
-                        class="fa-solid fa-arrow-down"></i></button>
+                        class="fa-solid fa-arrow-down"></i></button> -->
+                <div class="sortable-handle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
             </div>
             <div class="form-floating">
                 <input class="form-control product-title" placeholder="نام محصول">
@@ -113,6 +116,7 @@
 
     <script src="https://cdn.omegarelectrice.com/libs/jquery.min.js"></script>
     <script src="https://cdn.omegarelectrice.com/toastr/toastr.min.js"></script>
+    <script src="https://cdn.omegarelectrice.com/libs/Sortable.min.js"></script>
     <script src="/views/js/common.js"></script>
     <script src="editor.js"></script>
 </body>

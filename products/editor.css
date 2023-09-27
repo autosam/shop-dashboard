@@ -148,3 +148,16 @@
         /* background-color: white; */
     }
 }
+.sortable-handle {
+    width: 40px;
+    text-align: center;
+}
+.sortable-handle:hover {
+    cursor: grab;
+}
+.sortable-handle > i {
+    font-size: large;
+}
+.sortable-active {
+    filter: contrast(0.7);
+}

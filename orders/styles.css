@@ -50,6 +50,19 @@
 
 .orders-table .set-order > td:last-child, 
 .orders-table .set-order > td:first-child, 
-.orders-table .set-order > td:nth-last-child(2) {
+.orders-table .set-order > td:nth-child(2),
+.orders-table .set-order > td:nth-child(3)
+/* .orders-table .set-order > td:nth-child(4) */
+{
+    /* opacity: 0; */
+
+}
+
+.orders-table .set-order div {
     opacity: 0;
+}
+
+tbody tr:not(.set-order) {
+    border-bottom: 0px white;
+    background: lavender;
 }
