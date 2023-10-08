@@ -45,6 +45,12 @@ body {
     padding: 0px 20px;
     gap: 20px;
 }
+.user-logo {
+    width: 45px;
+    border-radius: 300px;
+    margin-right: auto;
+    border: 1px solid rgba(255, 255, 255, 0.151);
+}
 
 .navbar-item {
     all: unset;
