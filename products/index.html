@@ -62,6 +62,12 @@
         <!-- <textarea style="width: 100px; height: 50px; float: left;" id="save-result"></textarea> -->
     </div>
 
+    <div class="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+
     <div class="product-list"></div>
 
     <div>
@@ -109,7 +115,7 @@
                 <button class="btn btn-secondary" onclick="main.editTags(this)"> <i class="fa-solid fa-tag"></i> تگ
                     ها</button>
                 <button class="btn btn-danger" onclick="main.removeProductDom(this)" class="remove-product"> <i
-                        class="fa-solid fa-times"></i> </button>
+                        class="fa-solid fa-trash"></i> </button>
             </div>
         </div>
     </div>

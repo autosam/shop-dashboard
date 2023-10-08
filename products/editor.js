@@ -20,7 +20,8 @@ let main = {
             handle: '.sortable-handle',
             sort: true,
             filter: '.sortable-disabled',
-            ghostClass: 'sortable-active'
+            ghostClass: 'sortable-active',
+            forceFallback: true,
         });
     },
     async loadProductList(path){
@@ -32,7 +33,8 @@ let main = {
             let response = await fetch(path);
             list = await response.json();
         } catch(e) {
-            alert(e, 'something went wrong');
+            alert("مشکل در بارگذاری لیست محصولات، در حال بارگذاری مجدد...");
+            location.reload();
             return;
         }
 
@@ -80,7 +82,7 @@ let main = {
         if(def.isNew) product.scrollIntoView();
     },
     removeProductDom: function(e){
-        if(!confirm("حذف؟")) return;
+        if(!confirm("آیا از حذف این محصول اطمینان دارید؟ (توجه: با انجام این کار تمام سفارش های فعال این محصول با مشکل روبرو خواهند شد، قبل از انجام این کار از عدم وجود سفارش فعال روی محصول اطمینان حاصل کنید)")) return;
         e.closest('.product').remove();
     },
     changeProductDomOrder: function(e, state){
