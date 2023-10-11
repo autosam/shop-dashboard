@@ -40,6 +40,8 @@ let main = {
 
         this.clearProductList();
 
+        this.list = list;
+
         list.forEach(productDefinition => {
             // main.dom.productList.innerHTML += `\n${JSON.stringify(productDefinition)}`;
             main.addProductDom(productDefinition);
@@ -76,10 +78,28 @@ let main = {
             if(def.isNew){
                 product.classList.add('new');
             }
+
+
+            if(def.tags){
+                if(def.tags['home_special']){
+                    product.classList.add('featured');
+                }
+            }
         }
         
         this.dom.productList.appendChild(product);
         if(def.isNew) product.scrollIntoView();
+    },
+    getFeaturedCategories: function(){
+        let featuredCategories = [];
+        this.list.forEach(productDefinition => {
+            if(productDefinition.tags && productDefinition.tags['home_special']){
+                if(featuredCategories.indexOf(productDefinition.tags['home_special']) == -1){
+                    featuredCategories.push(productDefinition.tags['home_special']);
+                }
+            }
+        });
+        return featuredCategories;
     },
     removeProductDom: function(e){
         if(!confirm("آیا از حذف این محصول اطمینان دارید؟ (توجه: با انجام این کار تمام سفارش های فعال این محصول با مشکل روبرو خواهند شد، قبل از انجام این کار از عدم وجود سفارش فعال روی محصول اطمینان حاصل کنید)")) return;
@@ -122,6 +142,16 @@ let main = {
         }
 
         let modal;
+
+        let options = "";
+        main.getFeaturedCategories().forEach(cat => {
+            options += '\n<option value="' + cat + '">';
+        });
+        tagsEditModalContent.innerHTML += `
+            <datalist id="featured-categories">
+                ${options}
+            </datalist>
+        `;
 
         tagsEditModalContent.querySelector('.add-tag-btn').onclick = function(){
             let title = this.closest('div').querySelector('.add-tag-title').value,

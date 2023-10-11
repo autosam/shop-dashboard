@@ -35,6 +35,10 @@
     background: aliceblue;
 }
 
+.product.featured {
+    background-color: rgb(253, 191, 255);
+}
+
 .product input, .product textarea {
     border: none;
     /* border-left: 1px solid black; */
