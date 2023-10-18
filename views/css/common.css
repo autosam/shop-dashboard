@@ -25,6 +25,9 @@ body {
     font-family: "sans";
     font-size: small;
     margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .page-header {
@@ -188,4 +191,22 @@ body {
     opacity: 100;
     transition: none;
     z-index: 10;
+}
+
+ul.dropdown-menu {
+    font-size: small;
+}
+
+a.dropdown-item > i {
+    margin-left: 5px;
+}
+
+.page-footer {
+    /* position: absolute; */
+    bottom: 0px;
+    padding: 10px;
+    background: #e5e5e5;
+    width: 100%;
+    text-align: center;
+    margin-top: auto;
 }

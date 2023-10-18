@@ -1,15 +1,30 @@
+<link rel="stylesheet" href="https://cdn.omegarelectrice.com/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.omegarelectrice.com/fa-pro-6.4.2/css/all.css">
+<link rel="stylesheet" href="https://cdn.omegarelectrice.com/toastr/toastr.min.css">
 <link rel="stylesheet" href="/views/css/common.css">
 
+<!-- page header -->
 <div class="page-header">
     <div class="page-navbar">
+
         <a href="/" class="navbar-item">
             <i class="fa-solid fa-home"></i>
             خانه
         </a>
-        <a href="/products" class="navbar-item">
-            <i class="fa-solid fa-list"></i>
-            لیست محصولات
-        </a>
+
+        <div class="dropdown">
+            <button class="navbar-item dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-command"></i>
+                مدیریت محتوا
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li>
+                    <a href="/products" class="dropdown-item"><i class="fa-solid fa-list"></i>لیست محصولات</a>
+                </li>
+            </ul>
+        </div>
+
         <a href="/orders" class="navbar-item">
             <i class="fa-solid fa-shopping-bag"></i>
             لیست سفارش ها
@@ -21,3 +36,5 @@
         <img class="user-logo" src="/resources/img/icon_01.png"></img>
     </div>
 </div>
+
+<script src="https://cdn.omegarelectrice.com/bootstrap/js/bootstrap.bundle.min.5.0.2.js"></script>
