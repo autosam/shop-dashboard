@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>مدیریت کمپین ها</title>
+
+    <link rel="stylesheet" href="featured.css">
+
+</head>
+
+<body style="display: none;">
+    <div data-include="common"></div>
+    <div data-include="page-title" data-replace-title="%document.title%"></div>
+
+    <div class="page-toolbar">
+        <button id="add-campaign-btn" class="btn btn-secondary"><i class="fa-solid fa-plus"></i> کمپین جدید </button>
+    </div>
+
+    <!-- <table class="table table-hover orders-table" data-loading="false">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>نام</td>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table> -->
+
+    <div class="campaign-container">
+
+    </div>
+
+    <div class="hidden">
+        <div class="cloneable campaign-card">
+            <i class="fa-solid fa-bars"></i>
+            <div>
+                <div class="form-floating">
+                    <input class="form-control campaign-name" placeholder="نام کمپین"></input>
+                    <label>نام کمپین</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.omegarelectrice.com/libs/jquery.min.js"></script>
+    <script src="https://cdn.omegarelectrice.com/toastr/toastr.min.js"></script>
+    <script src="https://cdn.omegarelectrice.com/libs/Sortable.min.js"></script>
+    <script src="/views/js/includer.js"></script>
+    <script src="/views/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="featured.js"></script>
+</body>
+
+</html>

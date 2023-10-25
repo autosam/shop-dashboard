@@ -38,8 +38,14 @@
     display: none;
 }
 
-.orders-table .set-order {
+.orders-table .set-order .actions-container {
     /* border-bottom-color: transparent; */
+    display: none;
+}
+
+.actions-container {
+    display: flex;
+    gap: 5px;
 }
 
 .orders-table .set-order + tr:not(.set-order) {

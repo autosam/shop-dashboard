@@ -1,0 +1,12 @@
+.campaign-card {
+    display: flex;
+    align-items: center;
+}
+.campaign-card > i {
+    margin-left: 10px;
+    padding: 20px;
+    font-size: large;
+}
+.campaign-card + .campaign-card {
+    margin-top: 10px;
+}

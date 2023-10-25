@@ -1,3 +1,5 @@
+const API_ROUTE = 'https://api.omegarelectrice.com/';
+
 $(function () {
     // sticky
     const observer = new IntersectionObserver(function ([e]) {

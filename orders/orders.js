@@ -54,9 +54,11 @@ async function refreshOrders(){
         }
         lastSetId = order.setId;
 
-        let processed = '<span class="badge bg-primary"> در حال بررسی </span>';
-        if(order.processed == 1) processed = '<span class="badge bg-success"> تایید شده </span>';
-        else if(order.processed == -1) processed = '<span class="badge bg-danger"> رد شده </span>';
+        // let processed = '<span class="badge bg-primary"> در حال بررسی </span>';
+        // if(order.processed == 1) processed = '<span class="badge bg-success"> تایید شده </span>';
+        // else if(order.processed == -1) processed = '<span class="badge bg-danger"> رد شده </span>';
+        let processed = productsHelper.transState(order.processed).badge;
+        
         tbody.innerHTML += `
         <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""}">
             <td id="hash-num"><div class="set-order-invisible">${i+1}</div></td>
@@ -67,10 +69,12 @@ async function refreshOrders(){
             <td id="type" style="text-align: center;">${order.type == 'single' ? "تکی" : "جعبه ای"}</td>
             <td id="state" style="text-align: center;"><span>${processed}</span></td>
             <td id="actions" style="text-align: center;">
-                <div class="set-order-invisiblee">
-                    <i class="order-accept fa-solid fa-check btn btn-success"></i>
-                    <i class="order-reject fa-solid fa-times btn btn-danger"></i>
+                <div class="set-order-invisiblee actions-container">
+                    <i class="order-set-state fa-solid fa-angle-right btn btn-primary"></i>
+                    ${ORDER_SELECT}
                     <i class="order-export fa-solid fa-file-excel btn btn-secondary"></i>
+                    <i class="hidden order-accept fa-solid fa-check btn btn-success"></i>
+                    <i class="hidden order-reject fa-solid fa-times btn btn-danger"></i>
                 </div>
             </td>
         </tr>
@@ -79,9 +83,10 @@ async function refreshOrders(){
 
     let fnAction = function(setId, state){
         if(setId){
-            [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)].forEach((row, i) => {
+            let list = [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)];
+            list.forEach((row, i) => {
                 let orderId = row.getAttribute('data-order-id');
-                setOrderState(orderId, state, i != 0);
+                setOrderState(orderId, state, i != 0, i != list.length - 1);
             });
             return;
         } else {
@@ -92,6 +97,14 @@ async function refreshOrders(){
     Array.from(tbody.querySelectorAll('tr')).forEach(row => {
         let orderId = row.getAttribute('data-order-id'),
             setId = row.getAttribute('data-set-id');
+        row.querySelector('.order-set-state').onclick = function(){
+            let select = row.querySelector('#order-state');
+            if(select.value == "null") {
+                select.style.borderColor = 'red'; 
+                return;
+            }
+            fnAction(setId, select.value);
+        }
         row.querySelector('.order-accept').onclick = function(){
             fnAction(setId, 1);
         }
@@ -125,20 +138,49 @@ async function refreshOrders(){
     document.querySelector('.orders-container').setAttribute('data-loading', false);
 }
 
-function setOrderState(orderId, state, nonVerbose){
+function setOrderState(orderId, state, nonVerbose, noRefresh){
     fetch(`https://api.omegarelectrice.com/orderState.php?order_id=${orderId}&state=${state}`)
     .then(response => response.json)
     .then(json => {
-        refreshOrders();
+        if(!noRefresh) refreshOrders();
         if(!nonVerbose) toast('success', 'عملیات با موفقیت انجام شد');
     }).catch(e => {
         if(!nonVerbose) toast('error', e);
-        refreshOrders();
+        if(!noRefresh) refreshOrders();
     });
 }
 
+let ORDER_STATES = null, ORDER_STATES_RAW = null, ORDER_SELECT;
+function getOrderStates(){
+    return fetch("https://cdn.omegarelectrice.com/metadata/order-states.json")
+        .then(res => res.json())
+        .then(json => {
+            let states = {};
+            json.forEach(entry => {
+                states[entry.code] = {description: entry.description, ident: entry.state};
+            });
+            ORDER_STATES = states;
+            ORDER_STATES_RAW = json;
+            ORDER_SELECT = `
+                <select class="form-control" id="order-state">
+                    <option value="null" disabled selected> وضعیت را انتخاب کنید </option>
+                    ${
+                        ORDER_STATES_RAW.map(state => {
+                            return `<option value="${state.code}"> ${state.description} </option>`
+                        })
+                    }
+                </select>
+            `
+        })
+        .catch(e => {
+            console.log(e);
+            ORDER_STATES = -1;
+        });
+}
+
 async function init(){
-    // productsList = await loadProducts();
+    await getOrderStates();
+
     await productsHelper.init();
 
     let refreshBtn = document.querySelector('.btn.refresh');
@@ -191,7 +233,36 @@ let productsHelper = {
             case "box_amount": return "تعداد در کارتن";
             case "custom": return "تگ";
         }
-    }
+    },
+    transState: function(code){
+        function getStateDescription(){
+            let state = ORDER_STATES[code];
+            if(!state){
+                return 'نامشخص';
+            }
+            return state.description;
+        }
+
+        function getBadgeClass(){
+            switch(code.toString()){
+                case '0':
+                    return 'badge bg-primary';
+                case '-1':
+                    return 'badge bg-danger';
+                case '1':
+                    return 'badge bg-success';
+                default:
+                    return 'badge bg-secondary';
+            }
+        }
+
+        let description = getStateDescription();
+
+        return {
+            description,
+            badge: `<span id="state" class="${getBadgeClass()}"> ${description} </span>`,
+        }
+    },
 }
 
 init();
