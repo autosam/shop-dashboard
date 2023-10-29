@@ -220,3 +220,14 @@ a.dropdown-item > i {
     text-align: center;
     margin-top: auto;
 }
+
+.center {
+    text-align: center;
+}
+
+.flex-spacearound {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
