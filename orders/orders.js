@@ -62,7 +62,7 @@ async function refreshOrders(){
         tbody.innerHTML += `
         <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""}">
             <td id="hash-num"><div class="set-order-invisible">${i+1}</div></td>
-            <td id="timestamp"><div class="set-order-invisible">${order.timestamp}</div></td>
+            <td id="timestamp"><div class="set-order-invisible">${new Date(order.timestamp).toLocaleDateString('fa-IR')} - ${new Date(order.timestamp).toLocaleTimeString('fa-IR')}</div></td>
             <td id="user"><div class="set-order-invisible">${order.user}</div></td>
             <td id="product-name">${name}</td>
             <td id="quantity" style="text-align: center;">${order.quantity}</td>
@@ -72,9 +72,12 @@ async function refreshOrders(){
                 <div class="set-order-invisiblee actions-container">
                     <i class="order-set-state fa-solid fa-angle-right btn btn-primary"></i>
                     ${ORDER_SELECT}
-                    <i class="order-export fa-solid fa-file-excel btn btn-secondary"></i>
-                    <i class="hidden order-accept fa-solid fa-check btn btn-success"></i>
-                    <i class="hidden order-reject fa-solid fa-times btn btn-danger"></i>
+                    
+
+                    <i class="order-export fa-solid fa-file-excel btn btn-success"></i>
+                    <a href="/orders/edit?setId=${order.setId}" target="_blank">
+                        <i style="height: 100%" class="order-edit fa-solid fa-pen btn btn-secondary"></i>
+                    </a>
                 </div>
             </td>
         </tr>
@@ -105,12 +108,12 @@ async function refreshOrders(){
             }
             fnAction(setId, select.value);
         }
-        row.querySelector('.order-accept').onclick = function(){
-            fnAction(setId, 1);
-        }
-        row.querySelector('.order-reject').onclick = function(){
-            fnAction(setId, -1);
-        }
+        // row.querySelector('.order-accept').onclick = function(){
+        //     fnAction(setId, 1);
+        // }
+        // row.querySelector('.order-reject').onclick = function(){
+        //     fnAction(setId, -1);
+        // }
         row.querySelector('.order-export').onclick = function(){
             let list = [];
             [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)].forEach((row, i) => {
@@ -195,74 +198,6 @@ async function init(){
     // }, 20000);
 
     refreshBtn.click();
-}
-
-let productsHelper = {
-    list: null,
-    initialied: false,
-    async init(){
-        return new Promise((resolve, reject) => {
-            this.loadProducts().then(() => {
-                productsHelper.initialied = true;
-                resolve(productsHelper.list);
-            });
-        })
-    },
-    loadProducts: function(){
-        return new Promise((resolve, reject) => {
-            fetch("https://api.omegarelectrice.com/json/products.json").then(response => response.json()).then(list => {
-                resolve(list);
-                productsHelper.list = list;
-            });
-        });
-    },
-    getProductById: function(id){
-        for(let i = 0; i < this.list.length; i++){
-            let product = this.list[i];
-            if(product.id == id){
-                return product;
-            }
-        }
-        return false;
-    },
-    tagIdToText: function(id){
-        switch(id){
-            case "meter": return "متراژ";
-            case "amper": return "آمپر";
-            case "watt": return "وات";
-            case "box_amount": return "تعداد در کارتن";
-            case "custom": return "تگ";
-        }
-    },
-    transState: function(code){
-        function getStateDescription(){
-            let state = ORDER_STATES[code];
-            if(!state){
-                return 'نامشخص';
-            }
-            return state.description;
-        }
-
-        function getBadgeClass(){
-            switch(code.toString()){
-                case '0':
-                    return 'badge bg-primary';
-                case '-1':
-                    return 'badge bg-danger';
-                case '1':
-                    return 'badge bg-success';
-                default:
-                    return 'badge bg-secondary';
-            }
-        }
-
-        let description = getStateDescription();
-
-        return {
-            description,
-            badge: `<span id="state" class="${getBadgeClass()}"> ${description} </span>`,
-        }
-    },
 }
 
 init();
