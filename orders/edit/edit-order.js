@@ -125,7 +125,8 @@ async function init(){
         return;
     }
 
-    document.querySelector('.page-title h1').textContent += ` ${SET_ID}`;
+    if(document.querySelector('.page-title h1'))
+        document.querySelector('.page-title h1').textContent += ` ${SET_ID}`;
 
     refreshOrders();
 

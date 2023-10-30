@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ثبت سفارش دستی</title>
+</head>
+<body style="display: none;">
+    <div data-include="common"></div>
+    <div 
+        data-include="page-title"
+        data-replace-title="%document.title%" 
+        data-replace-description="در این بخش لیست سفارشات را کنترل کنید" 
+    ></div>
+
+    <div class="page-toolbar">
+        <button class="btn add btn-secondary"> <i class="fa-solid fa-plus"></i> آیتم جدید </button>
+        <button class="btn submit btn-primary"> <i class="fa-solid fa-check"></i> ثبت </button>
+    </div>
+
+    <div class="orders-container">
+        <div class="loading-overlay">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+
+        <div class="cmp-table">
+            <div class="cmp-row">
+                <label>نام مشتری</label>
+                <input list="users" class="form-control user"></input>
+            </div>
+        </div>
+    </div>
+
+    <!-- cloneables -->
+    <div class="cloneables hidden">
+        <div class="new-order cmp-table">
+            <div class="cmp-row">
+                <label>محصول</label>
+                <div class="product">
+
+                </div>
+            </div>
+
+            <div class="cmp-row">
+                <label>تعداد</label>
+                <input class="form-control quantity"></input>
+            </div>
+
+            <div class="cmp-row">
+                <label>نوع</label>
+                <select class="form-control type">
+                    <option value="box">جعبه ای</option>
+                    <option value="single">تکی</option>
+                </select>
+            </div>
+
+            <div class="cmp-row">
+                <label>عملیات</label>
+                <div>
+                    <button class="remove btn btn-danger"> حذف </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdn.omegarelectrice.com/libs/jquery.min.js"></script>
+    <script src="https://cdn.omegarelectrice.com/toastr/toastr.min.js"></script>
+    <script src="https://cdn.omegarelectrice.com/libs/papaparse.min.js"></script>
+    <script src="/views/js/includer.js"></script>
+    <script src="/views/js/common.js"></script>
+    <script src="new-order.js"></script>
+</body>
+</html>

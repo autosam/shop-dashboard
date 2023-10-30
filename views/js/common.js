@@ -165,6 +165,74 @@ let productsHelper = {
     },
 }
 
+let utils = {
+    randomInt: function(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    randomCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789'.split(''),
+    generateRandomChars: function(length, randomCharacters){
+        if(!randomCharacters) randomCharacters = this.randomCharacters;
+        if(!length) length = 20;
+        let str = '';
+        for(let i = 0; i < length; i++)
+            str += randomCharacters[utils.randomInt(0, randomCharacters.length - 1)];
+        return str;
+    },
+    persianNum: function(text){
+        return persianJs(new Intl.NumberFormat('en-US', {style : "decimal" }).format(text)).englishNumber()
+    },
+    convertNumFaToEn: function(text){
+        return text
+            .toString()
+            .replaceAll('1', '۱')
+            .replaceAll('2', '۲')
+            .replaceAll('3', '۳')
+            .replaceAll('4', '۴')
+            .replaceAll('5', '۵')
+            .replaceAll('6', '۶')
+            .replaceAll('7', '۷')
+            .replaceAll('8', '۸')
+            .replaceAll('9', '۹')
+            .replaceAll('0', '۰');
+    },
+    convertNumEnToFa: function(text){
+        return text
+            .toString()
+            .replaceAll('۱', '1')
+            .replaceAll('۲', '2')
+            .replaceAll('۳', '3')
+            .replaceAll('۴', '4')
+            .replaceAll('۵', '5')
+            .replaceAll('۶', '6')
+            .replaceAll('۷', '7')
+            .replaceAll('۸', '8')
+            .replaceAll('۹', '9')
+            .replaceAll('۰', '0');
+    },
+    setCookie: function(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    },
+    getCookie: function(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    },
+}
+
 function getJsonFromUrl(url) {
     if (!url) url = location.search;
     var query = url.substr(1);
