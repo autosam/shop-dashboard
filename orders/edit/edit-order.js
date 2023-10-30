@@ -124,13 +124,14 @@ async function init(){
         document.body.style.display = 'none';
         return;
     }
-
-    if(document.querySelector('.page-title h1'))
-        document.querySelector('.page-title h1').textContent += ` ${SET_ID}`;
-
-    refreshOrders();
-
-    document.querySelector('.btn.save').onclick = save;
+    setTimeout(() => {
+        if(document.querySelector('.page-title h1'))
+            document.querySelector('.page-title h1').textContent += ` ${SET_ID}`;
+    
+        refreshOrders();
+    
+        document.querySelector('.btn.save').onclick = save;
+    }, 500);
 }
 
 init();

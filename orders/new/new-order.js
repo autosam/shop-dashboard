@@ -8,12 +8,23 @@ function addOrder(){
 }
 
 function submit(){
-    if(!confirm('آیا میخواهید سفارش ثبت شود؟')) return;
-    
     let user = document.querySelector('.user').value;
+    if(!user){
+        toast('error', 'نام مشتری وارد نشده');
+        return;
+    }
+
+    let allOrders = [...document.querySelectorAll('.orders-container .new-order')];
+    if(!allOrders.length){
+        toast('error', 'هیج محصولی ثبت نشده');
+        return;
+    }
+
+
+    if(!confirm('آیا میخواهید سفارش ثبت شود؟')) return;
+
 
     let setId = utils.generateRandomChars(8);
-    let allOrders = [...document.querySelectorAll('.orders-container .new-order')];
     allOrders.forEach((order, i) => {
         let productId = order.querySelector('.product .form-control').value;
         let type = order.querySelector('.type').value;
