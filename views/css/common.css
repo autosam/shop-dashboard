@@ -3,7 +3,7 @@
     src: url('https://cdn.omegarelectrice.com/fonts/Sans a4fran3.woff');
 }
 
-/* @font-face {
+@font-face {
     font-family: "IRANSansX";
     src: url("https://cdn.omegarelectrice.com/fonts/woff/IRANSansX-Regular.woff");
 }
@@ -18,11 +18,11 @@
     font-family: "IRANSansX";
     src: url("https://cdn.omegarelectrice.com/fonts/woff/IRANSansX-ExtraBold.woff");
     font-weight: 900;
-} */
+}
 
 
 body {
-    font-family: "sans";
+    font-family: "IRANSansX";
     font-size: small;
     margin-top: 70px;
     display: flex;
@@ -72,8 +72,9 @@ body {
 
 .navbar-item:hover {
     color: rgb(240, 240, 240);
-    outline: 1px solid rgba(255, 255, 255, 0.384);
+    /* outline: 1px solid rgba(255, 255, 255, 0.384); */
     /* border-bottom: 2px solid white; */
+    background-color: rgba(0, 0, 0, 0.137);
 }
 
 /* .navbar-item:hover:after {

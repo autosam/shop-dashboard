@@ -52,6 +52,10 @@
     position: relative;
 }
 
+.orders-table tr {
+    border-bottom-color: transparent;
+}
+
 /* .orders-table .set-order + tr:not(.set-order):after {
     background-color: red;
 
@@ -64,7 +68,7 @@
     left: 0px;
 } */
 
-.set-order .set-order-invisible:after {
+/* .set-order .set-order-invisible:after {
     background: #e2e2e2;
     width: 120%;
     height: 1px;
@@ -72,7 +76,7 @@
     position: absolute;
     top: 50%;
     left: 0px;
-}
+} */
 
 tbody tr:not(.set-order) {
     /* border-bottom: 0px white; */
@@ -81,12 +85,16 @@ tbody tr:not(.set-order) {
     position: relative;
 }
 
-/* tbody tr:not(.set-order):after {
-    background: #333333;
+tbody tr:not(.set-order):after {
+    background: #969696;
     width: 100%;
     height: 1px;
     content: "";
     position: absolute;
     top: 0px;
     left: 0px;
-} */
+}
+
+tr.o-row-1 {
+    background: #ededed;
+}

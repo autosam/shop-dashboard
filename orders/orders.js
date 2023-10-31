@@ -33,6 +33,7 @@ async function refreshOrders(){
     tbody.innerHTML = '';
     let lastSetId = false;
     let i = -1;
+    let rowClass = 0;
     orders.forEach((order, _i) => {
         i++;
         let name;
@@ -51,6 +52,8 @@ async function refreshOrders(){
         if(lastSetId && lastSetId == order.setId){
             isPartOfSet = true;
             i--;
+        } else {
+            rowClass = (rowClass + 1) % 2;
         }
         lastSetId = order.setId;
 
@@ -60,7 +63,7 @@ async function refreshOrders(){
         let processed = productsHelper.transState(order.processed).badge;
         
         tbody.innerHTML += `
-        <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""}">
+        <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""} o-row-${rowClass}">
             <td id="hash-num"><div class="set-order-invisible">${i+1}</div></td>
             <td id="timestamp"><div class="set-order-invisible">${new Date(order.timestamp).toLocaleDateString('fa-IR')} - ${new Date(order.timestamp).toLocaleTimeString('fa-IR')}</div></td>
             <td id="user"><div class="set-order-invisible">${order.user}</div></td>
