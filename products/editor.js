@@ -82,6 +82,7 @@ let main = {
             product.querySelector('.product-subcategory').value = def.subCategory;
             product.querySelector('#box-sell').checked = def.boxSell;
             product.querySelector('#single-sell').checked = def.singleSell;
+            product.querySelector('.product-off-price').value = def.offPrice;
 
             if(def.tags){
                 if(def.tags['home_special']){
@@ -185,8 +186,9 @@ let main = {
         let id = product.getAttribute('data-product-id');
         let boxSell = product.querySelector('#box-sell').checked;
         let singleSell = product.querySelector('#single-sell').checked;
+        let offPrice = product.querySelector('.product-off-price').value;
         // return JSON.stringify({title, description, price, image, category});
-        return {title, description, price, image, category, subCategory, tags, id, boxSell, singleSell};
+        return {title, description, price, image, category, subCategory, tags, id, boxSell, singleSell, offPrice};
         // product.querySelector('.product-tags').value = JSON.stringify(def.tags, null, 1) || '';
     },
     saveProducts: function(){
