@@ -79,10 +79,10 @@ let main = {
                 product.classList.add('new');
             }
 
-            product.querySelector('.product-subcategory').value = def.subCategory;
+            product.querySelector('.product-subcategory').value = def.subCategory || '';
             product.querySelector('#box-sell').checked = def.boxSell;
             product.querySelector('#single-sell').checked = def.singleSell;
-            product.querySelector('.product-off-price').value = def.offPrice;
+            product.querySelector('.product-off-price').value = def.offPrice || '';
 
             if(def.tags){
                 if(def.tags['home_special']){
@@ -128,7 +128,7 @@ let main = {
 
         let tagsEditModalContent = document.querySelector('.edit-tags-modal').cloneNode(true);
             tagsEditModalContent.classList.remove('hidden');
-        let cloneableRemoveableTag = tagsEditModalContent.querySelector('.removeable-tag.cloneable');
+        let cloneableRemoveableTag = tagsEditModalContent.querySelector('.removeable-tag.cloneable').cloneNode(true);
             cloneableRemoveableTag.classList.remove('cloneable');
 
         for(let key in tags){
@@ -147,15 +147,15 @@ let main = {
 
         let modal;
 
-        let options = "";
-        main.getFeaturedCategories().forEach(cat => {
-            options += '\n<option value="' + cat + '">';
-        });
-        tagsEditModalContent.innerHTML += `
-            <datalist id="featured-categories">
-                ${options}
-            </datalist>
-        `;
+        // let options = "";
+        // main.getFeaturedCategories().forEach(cat => {
+        //     options += '\n<option value="' + cat + '">';
+        // });
+        // tagsEditModalContent.innerHTML += `
+        //     <datalist id="featured-categories">
+        //         ${options}
+        //     </datalist>
+        // `;
 
         tagsEditModalContent.querySelector('.add-tag-btn').onclick = function(){
             let title = this.closest('div').querySelector('.add-tag-title').value,
