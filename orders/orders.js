@@ -66,7 +66,7 @@ async function refreshOrders(){
         <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""} o-row-${rowClass}">
             <td id="hash-num"><div class="set-order-invisible">${i+1}</div></td>
             <td id="timestamp"><div class="set-order-invisible">${new Date(order.timestamp).toLocaleDateString('fa-IR')} - ${new Date(order.timestamp).toLocaleTimeString('fa-IR')}</div></td>
-            <td id="user"><div class="set-order-invisible">${order.user}</div></td>
+            <td id="user"><div class="set-order-invisible">${order.user}<br><a href="tel:${order.user_number}">${order.user_number}</a></div></td>
             <td id="product-name">${name}</td>
             <td id="quantity" style="text-align: center;">${order.quantity}</td>
             <td id="type" style="text-align: center;">${order.type == 'single' ? "تکی" : "جعبه ای"}</td>
