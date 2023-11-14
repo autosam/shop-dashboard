@@ -66,7 +66,7 @@ async function refreshOrders(){
         <tr data-order-id="${order.order_id}" data-set-id="${order.setId}" class="${isPartOfSet ? "set-order" : ""} o-row-${rowClass}">
             <td id="hash-num"><div class="set-order-invisible">${i+1}</div></td>
             <td id="timestamp"><div class="set-order-invisible">${new Date(order.timestamp).toLocaleDateString('fa-IR')} - ${new Date(order.timestamp).toLocaleTimeString('fa-IR')}</div></td>
-            <td id="user"><div class="set-order-invisible">${order.user}<br><a href="tel:${order.user_number}">${order.user_number}</a></div></td>
+            <td id="user"><div class="set-order-invisible">${order.user} <br> <a href="tel:${order.user_number}">${order.user_number}</a></div></td>
             <td id="product-name">${name}</td>
             <td id="quantity" style="text-align: center;">${order.quantity}</td>
             <td id="type" style="text-align: center;">${order.type == 'single' ? "تکی" : "جعبه ای"}</td>
@@ -117,31 +117,92 @@ async function refreshOrders(){
         // row.querySelector('.order-reject').onclick = function(){
         //     fnAction(setId, -1);
         // }
-        row.querySelector('.order-export').onclick = function(){
-            let list = [];
-            [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)].forEach((row, i) => {
-                let orderId = row.getAttribute('data-order-id');
+        row.querySelector('.order-export').onclick = function(){ // export
+            // let list = [];
+            // [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)].forEach((row, i) => {
+            //     let orderId = row.getAttribute('data-order-id');
 
-                let item = [];
+            //     let item = [];
 
-                item.push(row.querySelector('#timestamp').textContent);
-                item.push(row.querySelector('#user').textContent)
-                item.push(row.querySelector('#product-name').textContent)
-                item.push(row.querySelector('#quantity').textContent)
-                item.push(row.querySelector('#type').textContent)
-                item.push(orderId)
-                item.push(setId)
+            //     item.push(row.querySelector('#timestamp').textContent);
+            //     item.push(row.querySelector('#user').textContent)
+            //     item.push(row.querySelector('#product-name').textContent)
+            //     item.push(row.querySelector('#quantity').textContent)
+            //     item.push(row.querySelector('#type').textContent)
+            //     item.push(orderId)
+            //     item.push(setId)
 
-                list.push(item);
-            });
-            let csv = Papa.unparse(list, {header: ['timestamp', 'user', 'product', 'quantity', 'type', 'orderid', 'setid']});
-            // console.log({csv, list});
-            console.log(csv);
-            saveFile(csv, 'order-' + setId + '.csv');
+            //     list.push(item);
+            // });
+
+            exportPdf(setId);
+
+            // let csv = Papa.unparse(list, {header: ['timestamp', 'user', 'product', 'quantity', 'type', 'orderid', 'setid']});
+            // // console.log({csv, list});
+            // console.log(csv);
+            // saveFile(csv, 'order-' + setId + '.csv');
         }
     });
 
     document.querySelector('.orders-container').setAttribute('data-loading', false);
+}
+
+function exportPdf(setId){
+
+    let table = document.querySelector('#order-export table');
+    let orderExport = document.querySelector('#order-export');
+
+    table.innerHTML = '';
+
+    [...document.querySelectorAll(`tr[data-set-id="${setId}"]`)].forEach((row, i) => {
+        let orderId = row.getAttribute('data-order-id');
+
+        let name = document.createElement('div');
+        name.innerHTML = row.querySelector('#product-name').innerHTML;
+
+        let tags = [];
+        [...name.querySelectorAll('.badge')].forEach(badge => {
+            // badge.textContent = ' - ' + badge.textContent;
+            tags.push(badge.innerHTML);
+            badge.remove();
+        })
+
+        name.innerHTML = name.textContent.split(' ').map(word => {
+            return `<span style="direction: rtl;display: inline-block"> ${word} </span>`
+        }).join(' ');
+
+        orderExport.querySelector('#timestamp').innerHTML = row.querySelector('#timestamp').textContent;
+        orderExport.querySelector('#username').innerHTML = row.querySelector('#user').innerHTML;
+
+        table.innerHTML += `
+            <tr>
+                <td> ${i + 1} </td>
+                <td> ${name.innerHTML} </td>
+                <td> ${tags.join('<br>')} </td>
+                <td> ${row.querySelector('#quantity').textContent} </td>
+                <td> ${row.querySelector('#type').textContent} </td>
+            </tr>
+        `;
+
+        // list.push(item);
+    });
+
+    let cloneExport = document.querySelector('#order-export').cloneNode(true);
+        $(cloneExport).show();
+
+    html2pdf().from(cloneExport).set({
+        margin: 0.05,
+        image: { type: "jpeg", quality: 0.99 },      
+        filename: `order-${setId}.pdf`,
+        html2canvas: { scale: 1.2, dpi: 300},
+        pagebreak:'css',      
+        dir: 'rtl',
+        jsPDF: {orientation:'portrait', unit: 'pt', format: 'A4', compressPDF: true}
+    }).save();
+
+    setTimeout(() => {
+        cloneExport.remove();
+    }, 5000);
 }
 
 function setOrderState(orderId, state, nonVerbose, noRefresh){

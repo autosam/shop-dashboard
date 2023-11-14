@@ -98,3 +98,36 @@ tbody tr:not(.set-order):after {
 tr.o-row-1 {
     background: #ededed;
 }
+
+
+/* order export stuff */
+#order-export {
+    display: flex;
+    background: white;
+    flex-direction: column;
+    margin: 20px;
+    align-items: center;
+    word-wrap: normal;
+    /* font-family: system-ui; */
+    
+}
+.order-export-info {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+.o-e-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+hr {
+    background-color: #000000 !important;
+    border: 0;
+    clear: both;
+    display: block;
+    width: 96%;
+    height: 1px;
+    /* opacity: 1; */
+}
